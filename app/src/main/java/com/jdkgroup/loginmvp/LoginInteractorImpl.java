@@ -1,26 +1,55 @@
 package com.jdkgroup.loginmvp;
 
-import android.os.Handler;
+import android.app.Activity;
 import android.text.TextUtils;
 
-public class LoginInteractorImpl implements LoginInteractor {
+import com.jdkgroup.loginmvp.base.BaseAppCompatActivity;
+import com.jdkgroup.loginmvp.retrofit.RetrofitClient;
+import com.jdkgroup.retrofit2mvp.model.MainCity;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class LoginInteractorImpl extends BaseAppCompatActivity implements LoginInteractor {
+    private RetrofitClient retrofitClient;
 
     @Override
-    public void login(final String username, final String password, final OnLoginFinishedListener listener) {
+    public void doLogin(final Activity activity, final String username, final String password, final OnLoginFinishedListener listener) {
 
         boolean error = false;
         if (TextUtils.isEmpty(username)) {
-            listener.onUsernameError(username);
+            listener.onFailure("Username empty");
             error = true;
             return;
         }
         if (TextUtils.isEmpty(password)) {
-            listener.onPasswordError(password);
+            listener.onFailure("Password empty");
             error = true;
             return;
         }
         if (!error) {
-            listener.onSuccess();
+            showProgressDialog(activity);
+            retrofitClient = new RetrofitClient();
+
+            retrofitClient
+                    .getApiService()
+                    .getResults()
+                    .enqueue(new Callback<MainCity>() {
+                        @Override
+                        public void onResponse(Call<MainCity> call, Response<MainCity> response) {
+                            MainCity mainCity = response.body();
+
+                            if (mainCity != null)
+                                listener.onSuccess(mainCity);
+                            hideProgressDialog();
+                        }
+
+                        @Override
+                        public void onFailure(Call<MainCity> call, Throwable t) {
+                            hideProgressDialog();
+                        }
+                    });
         }
     }
 }

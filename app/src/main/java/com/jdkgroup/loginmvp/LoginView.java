@@ -18,14 +18,10 @@
 
 package com.jdkgroup.loginmvp;
 
+import com.jdkgroup.retrofit2mvp.model.MainCity;
+
 public interface LoginView {
-    void showProgress();
-
-    void hideProgress();
-
-    void setUsernameError(String username);
-
-    void setPasswordError(String password);
-
-    void navigateToHome();
+    void setLoginSuccessful(String username);
+    void setError(String username);
+    void setCity(MainCity mainCity);
 }

@@ -18,6 +18,10 @@
 
 package com.jdkgroup.loginmvp;
 
+import android.app.Activity;
+
+import com.jdkgroup.retrofit2mvp.model.MainCity;
+
 public class LoginPresenterImpl implements LoginPresenter, LoginInteractor.OnLoginFinishedListener {
 
     private LoginView loginView;
@@ -28,35 +32,25 @@ public class LoginPresenterImpl implements LoginPresenter, LoginInteractor.OnLog
         this.loginInteractor = new LoginInteractorImpl();
     }
 
-    @Override public void validateCredentials(String username, String password) {
+    @Override public void validateCredentials(final Activity activity, String username, String password) {
         if (loginView != null) {
-            loginView.showProgress();
         }
-
-        loginInteractor.login(username, password, this);
+        loginInteractor.doLogin(activity, username, password, this);
     }
 
     @Override public void onDestroy() {
         loginView = null;
     }
 
-    @Override public void onUsernameError(String username) {
+    @Override public void onFailure(String failure) {
         if (loginView != null) {
-            loginView.setUsernameError("Username empty");
-            loginView.hideProgress();
+            loginView.setError(failure);
         }
     }
 
-    @Override public void onPasswordError(String password) {
+    @Override public void onSuccess(MainCity mainCity) {
         if (loginView != null) {
-            loginView.setPasswordError("Password empty");
-            loginView.hideProgress();
-        }
-    }
-
-    @Override public void onSuccess() {
-        if (loginView != null) {
-            loginView.navigateToHome();
+            loginView.setCity(mainCity);
         }
     }
 }

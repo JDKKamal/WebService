@@ -12,8 +12,7 @@
        android:id="@+id/appedtUsername"
        android:layout_width="match_parent"
        android:hint="Username"
-       android:textSize="17dp"
-       android:fontFamily="monospace"
+       android:theme="@style/AppThemeAppEditText"
        android:layout_height="wrap_content" />
 
     <android.support.v7.widget.AppCompatEditText
@@ -21,8 +20,7 @@
         android:layout_width="match_parent"
         android:layout_marginTop="15dp"
         android:hint="Password"
-        android:fontFamily="monospace"
-        android:textSize="17dp"
+        android:theme="@style/AppThemeAppEditText"
         android:layout_height="wrap_content" />
 
     <View
@@ -37,6 +35,7 @@
         android:layout_marginTop="10dp"
         android:fontFamily="monospace"
         android:textSize="17dp"
+        android:theme="@style/AppThemeAppButton"
         android:textColor="@color/colorWhite"
         android:background="@color/colorPrimaryDark"
         android:layout_height="wrap_content" />

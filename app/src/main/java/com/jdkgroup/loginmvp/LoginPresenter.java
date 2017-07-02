@@ -18,8 +18,10 @@
 
 package com.jdkgroup.loginmvp;
 
+import android.app.Activity;
+
 public interface LoginPresenter {
-    void validateCredentials(String username, String password);
+    void validateCredentials(Activity activity, String username, String password);
 
     void onDestroy();
 }
