@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:padding="20dp"
-    android:background="@color/colorWhite"
+    android:background="@color/white"
     android:orientation="vertical"
     android:layout_height="match_parent">
 
@@ -36,7 +36,7 @@
         android:fontFamily="monospace"
         android:textSize="17dp"
         android:theme="@style/AppThemeAppButton"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/white"
         android:background="@color/colorPrimaryDark"
         android:layout_height="wrap_content" />
 

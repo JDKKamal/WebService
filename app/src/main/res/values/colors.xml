@@ -1,9 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#000000</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="colorPrimary">#0094f5</color>
+    <color name="themeColor">#0094f5</color>
+    <color name="colorPrimarySelector">#AA00a651</color>
+    <color name="colorPrimaryDark">@android:color/holo_blue_dark</color>
+    <color name="colorAccent">@android:color/holo_blue_light</color>
 
-    <color name="colorWhite">#FFFFFF</color>
     <color name="colorTransparent">#00000000</color>
+    <color name="red">#F85C5D</color>
+    <color name="redSelector">#F85C5D</color>
+    <color name="yellow">#FFCA28</color>
+
+    <color name="white">#ffffff</color>
+    <color name="whiteSelector">#Afff</color>
+    <color name="lightGray">#9dc9f1</color>
+    <color name="black">#000</color>
+    <color name="grey">#828282</color>
+    <color name="lightBlue">#e8f3fd</color>
+    <color name="titleBlue">#1986ef</color>
+    <color name="StrikeText">#737373</color>
+    <color name="cardViewGrayText">#414141</color>
+    <color name="whiteGray">#eee</color>
+    <color name="grayDevider">#dfdfdf</color>
+    <color name="darkBlue">#0066b2</color>
+
+    <color name="orderBlue">#1986EF</color>
+    <color name="orderYellow">#EFEF4C</color>
+    <color name="orderRed">#ef4c4c</color>
+    <color name="orderGreen">#1BAF3B</color>
+    <color name="orderDarkYellow">#D8A019</color>
 </resources>

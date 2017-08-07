@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import com.jdkgroup.loginmvp.base.BaseAppCompatActivity;
 import com.jdkgroup.loginmvp.retrofit.RetrofitClient;
-import com.jdkgroup.retrofit2mvp.model.MainCity;
+import com.jdkgroup.retrofitmvp2.model.MainCity;
 
 import retrofit2.Call;
 import retrofit2.Callback;

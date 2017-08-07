@@ -18,7 +18,7 @@
 
 package com.jdkgroup.loginmvp;
 
-import com.jdkgroup.retrofit2mvp.model.MainCity;
+import com.jdkgroup.retrofitmvp2.model.MainCity;
 
 public interface LoginView {
     void setLoginSuccessful(String username);

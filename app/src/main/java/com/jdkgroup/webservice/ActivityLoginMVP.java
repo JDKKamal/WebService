@@ -19,9 +19,7 @@
 package com.jdkgroup.webservice;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.View;
@@ -30,8 +28,8 @@ import com.jdkgroup.loginmvp.LoginPresenter;
 import com.jdkgroup.loginmvp.LoginPresenterImpl;
 import com.jdkgroup.loginmvp.LoginView;
 import com.jdkgroup.loginmvp.base.BaseAppCompatActivity;
-import com.jdkgroup.retrofit2mvp.model.MainCity;
-import com.jdkgroup.retrofit2mvp.model.Result;
+import com.jdkgroup.retrofitmvp2.model.MainCity;
+import com.jdkgroup.retrofitmvp2.model.Result;
 
 import java.util.List;
 

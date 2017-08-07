@@ -1,7 +1,7 @@
 package com.jdkgroup.loginmvp;
 
 import android.app.Activity;
-import com.jdkgroup.retrofit2mvp.model.MainCity;
+import com.jdkgroup.retrofitmvp2.model.MainCity;
 
 public interface LoginInteractor {
 

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion 26
@@ -29,8 +30,22 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:design:26.+'
 
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    compile 'com.squareup.okhttp3:okhttp:3.8.1'
+    // API Calling
+    /*For connection */
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    compile "io.reactivex:rxjava:$RX_JAVA_VERSION"
+    compile "io.reactivex:rxandroid:$RX_ANDROID_VERSION"
+    compile "com.jakewharton.rxbinding:rxbinding:$RXBINDING"
+    compile "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
+    compile "com.squareup.retrofit2:adapter-rxjava:$RETROFIT_VERSION"
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'uk.co.chrisjenx:calligraphy:2.3.0'
+
+    //sdp
+    compile 'com.intuit.sdp:sdp-android:1.0.4'
+
+    compile "com.jakewharton:butterknife:$BUTTER_KNIFE_VERSION"
+    apt "com.jakewharton:butterknife-compiler:$BUTTER_KNIFE_VERSION"
 }

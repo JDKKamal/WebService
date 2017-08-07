@@ -1,6 +1,6 @@
 package com.jdkgroup.loginmvp.retrofit;
 
-import com.jdkgroup.retrofit2mvp.model.MainCity;
+import com.jdkgroup.retrofitmvp2.model.MainCity;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
