@@ -7,8 +7,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
+import android.net.Network;
 import android.net.NetworkInfo;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
@@ -59,7 +63,6 @@ public class AppUtils {
         TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
         if (v != null) v.setGravity(Gravity.CENTER);
         toast.show();
-
     }
 
     public static void showToastById(Context context, int id) {
@@ -119,21 +122,52 @@ public class AppUtils {
         return true;
     }
 
-    public static boolean hasInternetConnection(Context context) {
+  /*  public static boolean hasInternetConnection(Context context) {
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnectedOrConnecting();
+    }*/
+
+    public static boolean hasInternetConnection(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Network[] networks = connectivityManager.getAllNetworks();
+            NetworkInfo networkInfo;
+            for (Network mNetwork : networks) {
+                networkInfo = connectivityManager.getNetworkInfo(mNetwork);
+                if (networkInfo.getState().equals(NetworkInfo.State.CONNECTED)) {
+                    return true;
+                }
+            }
+        } else {
+            if (connectivityManager != null) {
+                NetworkInfo[] info = connectivityManager.getAllNetworkInfo();
+                if (info != null) {
+                    for (NetworkInfo anInfo : info) {
+                        if (anInfo.getState() == NetworkInfo.State.CONNECTED) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public static void hideKeyboard(Activity ctx) {
-        if (ctx.getCurrentFocus() != null) {
-            InputMethodManager imm = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(ctx.getCurrentFocus().getWindowToken(), 0);
+        try {
+            ctx.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            InputMethodManager imm = (InputMethodManager) ctx.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(ctx.getWindow().getDecorView().getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
+            imm.hideSoftInputFromWindow(ctx.getWindow().getDecorView().getApplicationWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
+            imm.hideSoftInputFromWindow(ctx.getWindow().getDecorView().getWindowToken(), 0);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
-    public static void showKeyboard(Activity activity, EditText view) {
+    public static void showKeyboard(Activity activity, AppCompatEditText view) {
         Context context = activity;
         try {
             if (context != null) {
@@ -145,7 +179,7 @@ public class AppUtils {
         }
     }
 
-    public static void requestEdittextFocus(Activity activity, EditText view) {
+    public static void requestEdittextFocus(Activity activity, AppCompatEditText view) {
         view.requestFocus();
         showKeyboard(activity, view);
     }
@@ -339,4 +373,21 @@ public class AppUtils {
 //        }
 //        return "";
 //    }
+
+    public static String removeAllWhiteSpace(String value) {
+        return value.replaceAll("\\s+", "");
+    }
+
+    /* VALIDATION */
+    public final static boolean isValidEmail(CharSequence target) {
+        if (target == null) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+    }
+
+    public final static boolean isValidationRegularExpression(final String regularexpression, final String value) {
+        return value.matches(regularexpression);
+    }
 }

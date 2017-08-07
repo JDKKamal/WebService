@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -18,18 +19,27 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+
 import com.jdkgroup.retrofitmvp3.connection.RestConstant;
 import com.jdkgroup.retrofitmvp3.utils.AppUtils;
 import com.jdkgroup.retrofitmvp3.utils.PreferenceUtils;
 import com.jdkgroup.webservice.R;
 
+import java.io.Serializable;
 import java.util.HashMap;
+
+import butterknife.internal.Utils;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+import android.text.InputFilter;
+import android.text.Spanned;
 
 public class BaseActivity extends AppCompatActivity {
 
     public ProgressBar progressToolbar;
     private Dialog progressDialog;
+    private Intent intent;
+    private HashMap<String, String> params;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,20 +74,19 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public HashMap<String, String> getDefaultParameter() {
-        HashMap<String, String> params = new HashMap<>();
+        params = new HashMap<>();
         params.put(RestConstant.DEVICE_TYPE, RestConstant.DEVICE_TYPE_VALUE);
-
         return params;
     }
 
     public HashMap<String, String> getDefaultParamWithIdAndToken() {
-        HashMap<String, String> params = getDefaultParameter();
+        params = getDefaultParameter();
         params.put(RestConstant.USER_ID, PreferenceUtils.getInstance(this).getUserId());
         params.put(RestConstant.ACCESS_TOKEN, PreferenceUtils.getInstance(this).getAccessToken());
         return params;
     }
 
-    public void showProgressDialog(boolean show) {
+    public void showProgressDialog(final boolean show) {
         //Show Progress bar here
         if (show) {
             showProgressDialog();
@@ -86,7 +95,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void showProgressToolBar(boolean show, View view) {
+    public void showProgressToolBar(final boolean show, final View view) {
         if (show) {
             progressToolbar.setVisibility(View.VISIBLE);
             if (view != null)
@@ -134,10 +143,27 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
+    protected void onNewIntent(final Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
     }
+
+    /*
+    public void showProgress() {
+        customProgressbar = new CustomProgressbar(this);
+        if (customProgressbar != null && customProgressbar.isShowing()) {
+            customProgressbar.hide();
+        }
+        customProgressbar.show(false);
+        customProgressbar.isShowing();
+    }
+
+    public void hideProgress() {
+        if (customProgressbar != null && customProgressbar.isShowing()) {
+            customProgressbar.hide();
+        }
+        customProgressbar = null;
+    }*/
 
     @Override
     public void onBackPressed() {
@@ -149,11 +175,11 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void attachBaseContext(Context newBase) {
+    protected void attachBaseContext(final Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    public void onAuthenticationFailure(String message) {
+    public void onAuthenticationFailure(final String message) {
 
     }
 
@@ -165,5 +191,73 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    /* TODO LAUNCH ACTIVITY/FRAGMENT */
+    protected void launch(final Class<?> classType, final Serializable data) {
+        intent = new Intent(this, classType);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.putExtra("data", data);
+        startActivity(intent);
+    }
+
+    protected void launch(final Class<?> classType, final Bundle data) {
+        intent = new Intent(this, classType);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.putExtra("bundle", data);
+        startActivity(intent);
+    }
+
+    protected void launch(final Class<?> classType, final int flags) {
+        intent = new Intent(this, classType);
+        intent.addFlags(flags);
+        startActivity(intent);
+    }
+
+    protected void launch(final Class<?> classType) {
+        intent = new Intent(this, classType);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+    }
+
+    //ACTIVITY CLEAR TO LAUNCH NEW
+    protected void launchClear(final Class<?> classType) {
+        intent = new Intent(this, classType);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    protected void launchClear(final Class<?> classType, final Bundle bundle) {
+        intent = new Intent(this, classType);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("bundle", bundle);
+        startActivity(intent);
+    }
+
+    protected void intentOpenBrowser(final String url) {
+        if (AppUtils.hasInternet(getActivity())) {
+            intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
+        } else {
+            AppUtils.showToast(getActivity(), getString(R.string.no_internet_message));
+        }
+    }
+
+    public InputFilter decimalPointAfterBeforeAmount(final int maxDigitsBeforeDecimalPoint, final int maxDigitsAfterDecimalPoint) {
+        InputFilter filter = new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                StringBuilder builder = new StringBuilder(dest);
+                builder.replace(dstart, dend, source.subSequence(start, end).toString());
+                if (!builder.toString().matches("(([1-9]{1})([0-9]{0," + (maxDigitsBeforeDecimalPoint - 1) + "})?)?(\\.[0-9]{0," + maxDigitsAfterDecimalPoint + "})?")) {
+                    if (source.length() == 0)
+                        return dest.subSequence(dstart, dend);
+                    return "";
+                }
+                return null;
+            }
+        };
+
+        return filter;
+    }
 }
 
