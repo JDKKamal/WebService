@@ -4,6 +4,7 @@ import com.jdkgroup.retrofitmvp3.baseclasses.BasePresenter;
 import com.jdkgroup.retrofitmvp3.interacter.InterActorCallback;
 import com.jdkgroup.retrofitmvp3.models.Login;
 import com.jdkgroup.retrofitmvp3.view.LoginView;
+import com.jdkgroup.webservice.R;
 
 import java.util.HashMap;
 
@@ -42,13 +43,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
             }));
         }
         else{
-
+            //getView().onFailure(getString(R.string.no_internet_message));
         }
-            //getView().onFailure(R.string.no_internet_message);
     }
-
-
-
-
-
 }

@@ -47,7 +47,7 @@ public class ActivityRetrofitMVP3 extends SimpleMVPActivity<LoginPresenter, Logi
         super.onCreate(savedInstanceState);
         hideSoftKeyboard();
         setContentView(R.layout.activity_retrofit_mvp_3);
-        getWindow().setBackgroundDrawableResource(R.drawable.bg);
+        //getWindow().setBackgroundDrawableResource(R.drawable.bg);
         ButterKnife.bind(this);
         init();
 
