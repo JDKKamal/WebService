@@ -61,7 +61,7 @@ import java.util.Map;
 import java.util.TimeZone;
 
 public class AppUtils {
-    private static String TAG = "data";
+    private static String TAG = "Tag";
     private static int screenWidth = 0;
 
     private static CharSequence charsequence;
@@ -77,7 +77,7 @@ public class AppUtils {
         return editText.getText().toString().trim();
     }
 
-    public static boolean isEmplty(EditText editText) {
+    public static boolean isEmpty(EditText editText) {
         if (getText(editText).equalsIgnoreCase("")) {
             return true;
         }

@@ -1,14 +1,7 @@
 package com.jdkgroup.retrofitmvp3.baseclasses;
 
-import com.jdkgroup.retrofitmvp3.interacter.AppInteractor;
-
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
-
 public abstract class BasePresenter<V extends BaseView> {
-    protected AppInteractor appInteractor;
     private V view;
-    private CompositeSubscription subscription = new CompositeSubscription();
 
     final void attachView(V view) {
         this.view = view;
@@ -16,10 +9,6 @@ public abstract class BasePresenter<V extends BaseView> {
 
     final void detachView() {
         this.view = null;
-        if (subscription != null) {
-            subscription.clear();
-        }
-
     }
 
     public V getView() {
@@ -45,28 +34,5 @@ public abstract class BasePresenter<V extends BaseView> {
         public MvpViewNotAttachedException() {
             super("Please call Presenter.attachView(MvpView) before requesting data to the Presenter");
         }
-    }
-
-    protected void addSubscription(Subscription s) {
-        subscription.add(s);
-    }
-
-    //This method is for adding subscription with key
-    protected void addSubscription(Subscription subscription, String key, boolean removePrevious) {
-        /*if (removePrevious && subscriptionHashMap.containsKey(key)) {
-            Subscription foundSubscription = subscriptionHashMap.get(key);
-            if (foundSubscription != null && !foundSubscription.isUnsubscribed()) {
-                foundSubscription.unsubscribe();
-                subscriptionHashMap.remove(key);
-            }
-        }
-        subscriptionHashMap.put(key, subscription);*/
-    }
-
-    protected final AppInteractor getAppInteractor() {
-        if (appInteractor == null) {
-            appInteractor = new AppInteractor();
-        }
-        return appInteractor;
     }
 }

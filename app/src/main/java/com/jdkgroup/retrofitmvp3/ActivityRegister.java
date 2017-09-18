@@ -3,6 +3,7 @@ package com.jdkgroup.retrofitmvp3;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import com.androidnetworking.AndroidNetworking;
 import com.google.gson.Gson;
 import com.jdkgroup.retrofitmvp3.baseclasses.SimpleMVPActivity;
 import com.jdkgroup.retrofitmvp3.models.Login;
@@ -28,13 +29,14 @@ public class ActivityRegister extends SimpleMVPActivity<RegistrationPresenter, R
         init();
 
         params = getDefaultParameter();
-        getPresenter().callRegistationApi(params);
+        getPresenter().callRegisterAPI(params);
 
         params = new HashMap<>();
         getPresenter().callCityApi(this, params);
     }
 
     public void init() {
+        AndroidNetworking.initialize(getApplicationContext());
     }
 
     @NonNull

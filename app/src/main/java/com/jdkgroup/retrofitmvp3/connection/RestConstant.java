@@ -3,10 +3,10 @@ package com.jdkgroup.retrofitmvp3.connection;
 
 public class RestConstant {
 
-    public static final String BASE_URL = "http://ip-api.com/";
+    public static final String BASE_URL = "https://maps.googleapis.com/maps/api/timezone/";
+    public static final String END_POINT_STRING = "json?";
 
     /*Api name Constant*/
-    public static final String LOGIN = "json";
     public static final String SYNC_COUNTRY = "sync_country";
     public static final String SYNC_STATE = "sync_state";
     public static final String SYNC_CITY = "sync_city";
@@ -16,7 +16,7 @@ public class RestConstant {
     public static final String MY_ORDERS = "my_orders";
     public static final String PLACE_ORDER = "place_orders";
 
-    /*comman */
+    /*common */
     public static final String LANGUAGE = "language";
     public static final String DEVICE_TYPE = "device_type";
     public static final String DEVICE_TOKEN = "device_token";

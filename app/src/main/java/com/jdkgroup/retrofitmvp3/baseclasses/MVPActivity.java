@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 
 import com.jdkgroup.retrofitmvp3.utils.AppUtils;
 
-
 public abstract class MVPActivity<P extends BasePresenter<V>, V extends BaseView> extends BaseActivity {
 
     private P presenter;

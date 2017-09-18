@@ -1,138 +1,42 @@
 package com.jdkgroup.retrofitmvp3.models;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Login extends Response {
+public class Login {
 
-    @SerializedName("as")
+    @SerializedName("dstOffset")
     @Expose
-    private String as;
-    @SerializedName("city")
+    private Integer dstOffset;
+    @SerializedName("rawOffset")
     @Expose
-    private String city;
-    @SerializedName("country")
-    @Expose
-    private String country;
-    @SerializedName("countryCode")
-    @Expose
-    private String countryCode;
-    @SerializedName("isp")
-    @Expose
-    private String isp;
-    @SerializedName("lat")
-    @Expose
-    private Double lat;
-    @SerializedName("lon")
-    @Expose
-    private Double lon;
-    @SerializedName("org")
-    @Expose
-    private String org;
-    @SerializedName("query")
-    @Expose
-    private String query;
-    @SerializedName("region")
-    @Expose
-    private String region;
-    @SerializedName("regionName")
-    @Expose
-    private String regionName;
+    private Integer rawOffset;
     @SerializedName("status")
     @Expose
     private String status;
-    @SerializedName("timezone")
+    @SerializedName("timeZoneId")
     @Expose
-    private String timezone;
-    @SerializedName("zip")
+    private String timeZoneId;
+    @SerializedName("timeZoneName")
     @Expose
-    private String zip;
+    private String timeZoneName;
 
-    public String getAs() {
-        return as;
+    public Integer getDstOffset() {
+        return dstOffset;
     }
 
-    public void setAs(String as) {
-        this.as = as;
+    public void setDstOffset(Integer dstOffset) {
+        this.dstOffset = dstOffset;
     }
 
-    public String getCity() {
-        return city;
+    public Integer getRawOffset() {
+        return rawOffset;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getCountryCode() {
-        return countryCode;
-    }
-
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
-    }
-
-    public String getIsp() {
-        return isp;
-    }
-
-    public void setIsp(String isp) {
-        this.isp = isp;
-    }
-
-    public Double getLat() {
-        return lat;
-    }
-
-    public void setLat(Double lat) {
-        this.lat = lat;
-    }
-
-    public Double getLon() {
-        return lon;
-    }
-
-    public void setLon(Double lon) {
-        this.lon = lon;
-    }
-
-    public String getOrg() {
-        return org;
-    }
-
-    public void setOrg(String org) {
-        this.org = org;
-    }
-
-    public String getQuery() {
-        return query;
-    }
-
-    public void setQuery(String query) {
-        this.query = query;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
-    public String getRegionName() {
-        return regionName;
-    }
-
-    public void setRegionName(String regionName) {
-        this.regionName = regionName;
+    public void setRawOffset(Integer rawOffset) {
+        this.rawOffset = rawOffset;
     }
 
     public String getStatus() {
@@ -143,20 +47,21 @@ public class Login extends Response {
         this.status = status;
     }
 
-    public String getTimezone() {
-        return timezone;
+    public String getTimeZoneId() {
+        return timeZoneId;
     }
 
-    public void setTimezone(String timezone) {
-        this.timezone = timezone;
+    public void setTimeZoneId(String timeZoneId) {
+        this.timeZoneId = timeZoneId;
     }
 
-    public String getZip() {
-        return zip;
+    public String getTimeZoneName() {
+        return timeZoneName;
     }
 
-    public void setZip(String zip) {
-        this.zip = zip;
+    public void setTimeZoneName(String timeZoneName) {
+        this.timeZoneName = timeZoneName;
     }
 
 }
+

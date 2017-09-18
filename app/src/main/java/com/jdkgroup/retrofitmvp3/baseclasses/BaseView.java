@@ -18,10 +18,6 @@ public interface BaseView<T> {
 
     void onFailure(String message);
 
-/*
-    void setInternetError();
-*/
-
     void onAuthenticationFailure(String message);
 
     HashMap<String, String> getDefaultParameter();

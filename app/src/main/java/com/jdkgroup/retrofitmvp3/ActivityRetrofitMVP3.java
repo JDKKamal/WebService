@@ -8,10 +8,12 @@ import android.support.v7.widget.AppCompatTextView;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 
+import com.androidnetworking.AndroidNetworking;
 import com.google.gson.Gson;
 import com.jdkgroup.retrofitmvp3.baseclasses.SimpleMVPActivity;
 import com.jdkgroup.retrofitmvp3.connection.RestConstant;
 import com.jdkgroup.retrofitmvp3.models.Login;
+import com.jdkgroup.retrofitmvp3.models.ModelGetAllCricketFans;
 import com.jdkgroup.retrofitmvp3.presenter.LoginPresenter;
 import com.jdkgroup.retrofitmvp3.utils.AppUtils;
 import com.jdkgroup.retrofitmvp3.validator.Validator;
@@ -21,6 +23,8 @@ import com.jdkgroup.webservice.R;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,13 +54,15 @@ public class ActivityRetrofitMVP3 extends SimpleMVPActivity<LoginPresenter, Logi
         //getWindow().setBackgroundDrawableResource(R.drawable.bg);
         ButterKnife.bind(this);
         init();
-
-        HashMap<String, String> mapLogin = getDefaultParameter();
-        getPresenter().callLoginApi(mapLogin);
     }
 
     public void init() {
+        AndroidNetworking.initialize(getApplicationContext());
 
+        Map<String, String> data = new HashMap<>();
+        data.put("location", "38.908133,-77.047119");
+        data.put("timestamp", "1458000000");
+        getPresenter().callLoginApi(data);
     }
 
     @NonNull
@@ -72,14 +78,8 @@ public class ActivityRetrofitMVP3 extends SimpleMVPActivity<LoginPresenter, Logi
     }
 
     @Override
-    public void onSuccess(Login response) {
-        Gson gson = new Gson();
-        AppUtils.showToast(this, gson.toJson(response));
-        //AppUtils.startActivity(this,HomeActivity.class);
-//        Intent intent = new Intent(this, HomeActivity.class);
-//
-//        startActivity(intent);
-        openHomeScreen();
+    public void onSuccess(Object response) {
+
     }
 
     @Override
@@ -120,7 +120,7 @@ public class ActivityRetrofitMVP3 extends SimpleMVPActivity<LoginPresenter, Logi
                 e.printStackTrace();
             }
             mapLogin.put(RestConstant.USER_TYPE, RestConstant.USER_TYPE_VALUE);
-            getPresenter().callLoginApi(mapLogin);
+
         }
     }
 
@@ -141,5 +141,11 @@ public class ActivityRetrofitMVP3 extends SimpleMVPActivity<LoginPresenter, Logi
             etPassword.setTransformationMethod(null);
         }
         etPassword.setSelection(etPassword.getText().length());
+    }
+
+    @Override
+    public void onLogin(Object response) {
+        Login login = (Login) response;
+        AppUtils.showToast(getActivity(), login.getStatus());
     }
 }

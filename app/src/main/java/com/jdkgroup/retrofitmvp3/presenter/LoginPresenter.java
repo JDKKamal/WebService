@@ -1,49 +1,75 @@
 package com.jdkgroup.retrofitmvp3.presenter;
 
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.AnalyticsListener;
+import com.google.gson.Gson;
 import com.jdkgroup.retrofitmvp3.baseclasses.BasePresenter;
-import com.jdkgroup.retrofitmvp3.interacter.InterActorCallback;
+import com.jdkgroup.retrofitmvp3.connection.RestConstant;
 import com.jdkgroup.retrofitmvp3.models.Login;
 import com.jdkgroup.retrofitmvp3.view.LoginView;
-import com.jdkgroup.webservice.R;
+import com.rx2androidnetworking.Rx2AndroidNetworking;
 
-import java.util.HashMap;
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
+
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class LoginPresenter extends BasePresenter<LoginView> {
 
-
-    public void callLoginApi(HashMap<String, String> params) {
-
-        if (hasInternet()) {//If no internet it will show toast automatically.
-
-            addSubscription(getAppInteractor().callLoginApi(params, new InterActorCallback<Login>() {
-                @Override
-                public void onStart() {
-                    getView().showProgressDialog(true);
-                }
-
-                @Override
-                public void onResponse(Login response) {
-                    getView().onSuccess(response);
-                  /*  if (response.isStatus()) {
-                        getView().onSuccess(response);
-                    } else {
-                        getView().onFailure(response.getMessage());
-                    }*/
-                }
-
-                @Override
-                public void onFinish() {
-                    getView().showProgressDialog(false);
-                }
-
-                @Override
-                public void onError(String message) {
-                    getView().onFailure(message);
-                }
-            }));
+    public void callLoginApi(Map<String, String> params) {
+        if (hasInternet()) {
+            getAPI(params, Login.class);
         }
-        else{
-            //getView().onFailure(getString(R.string.no_internet_message));
-        }
+    }
+
+    public <T> void getAPI(Map<String, String> params, final Class<T> classObject) {
+        Rx2AndroidNetworking.get(RestConstant.BASE_URL + RestConstant.END_POINT_STRING)
+                .addQueryParameter(params)
+                .build()
+                .setAnalyticsListener(new AnalyticsListener() {
+                    @Override
+                    public void onReceived(long timeTakenInMillis, long bytesSent, long bytesReceived, boolean isFromCache) {
+
+                    }
+                })
+                .getObjectObservable(classObject)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<T>() {
+                    @Override
+                    public void onComplete() {
+                        getView().showProgressDialog(false);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().showProgressDialog(false);
+                        if (e instanceof ANError) {
+                            ANError anError = (ANError) e;
+                            if (anError.getErrorCode() != 0) {
+                                getView().onFailure(anError.getErrorDetail());
+                            } else {
+                                getView().onFailure(anError.getErrorDetail());
+                            }
+                        } else {
+                            getView().onFailure(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(@NonNull T response) {
+                      getView().onLogin(response);
+
+                    }
+                });
     }
 }
