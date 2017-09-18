@@ -3,7 +3,7 @@ package com.jdkgroup.rxjava2mvp.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Login {
+public class Login extends Response{
 
     @SerializedName("dstOffset")
     @Expose

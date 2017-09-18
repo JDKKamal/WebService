@@ -12,6 +12,7 @@ import com.androidnetworking.AndroidNetworking;
 import com.jdkgroup.rxjava2mvp.baseclasses.SimpleMVPActivity;
 import com.jdkgroup.rxjava2mvp.connection.RestConstant;
 import com.jdkgroup.rxjava2mvp.models.Login;
+import com.jdkgroup.rxjava2mvp.models.User;
 import com.jdkgroup.rxjava2mvp.presenter.LoginPresenter;
 import com.jdkgroup.rxjava2mvp.utils.AppUtils;
 import com.jdkgroup.rxjava2mvp.validator.Validator;
@@ -21,6 +22,7 @@ import com.jdkgroup.webservice.R;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -43,6 +45,8 @@ public class ActivityRetrofitMVP3 extends SimpleMVPActivity<LoginPresenter, Logi
     @BindView(R.id.ivEye)
     AppCompatImageView ivEye;
 
+    private Map<String, String> paramMap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,10 +60,14 @@ public class ActivityRetrofitMVP3 extends SimpleMVPActivity<LoginPresenter, Logi
     public void init() {
         AndroidNetworking.initialize(getApplicationContext());
 
-        Map<String, String> data = new HashMap<>();
-        data.put("location", "38.908133,-77.047119");
-        data.put("timestamp", "1458000000");
-        getPresenter().callLoginApi(data);
+        paramMap = new HashMap<>();
+        paramMap.put("location", "38.908133,-77.047119");
+        paramMap.put("timestamp", "1458000000");
+        getPresenter().callLoginApi(paramMap);
+
+        paramMap = new HashMap();
+        paramMap.put("limit", "3");
+        getPresenter().callLoginDetail(paramMap);
     }
 
     @NonNull
@@ -76,7 +84,8 @@ public class ActivityRetrofitMVP3 extends SimpleMVPActivity<LoginPresenter, Logi
 
     @Override
     public void onSuccess(Object response) {
-
+        Login login = (Login) response;
+        AppUtils.showToast(getActivity(), login.getStatus());
     }
 
     @Override
@@ -141,8 +150,8 @@ public class ActivityRetrofitMVP3 extends SimpleMVPActivity<LoginPresenter, Logi
     }
 
     @Override
-    public void onLogin(Object response) {
-        Login login = (Login) response;
-        AppUtils.showToast(getActivity(), login.getStatus());
+    public void onLoginDetail(Object response) {
+        List<User> alUser = (List<User>) response;
+        AppUtils.showToast(getActivity(), alUser.size() + "");
     }
 }

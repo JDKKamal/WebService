@@ -4,6 +4,9 @@ package com.jdkgroup.rxjava2mvp.connection;
 public class RestConstant {
 
     public static final String BASE_URL = "https://maps.googleapis.com/maps/api/timezone/";
+    private static final String BASE_URL_HEROKUAPP = "https://fierce-cove-29863.herokuapp.com/";
+
+    public static final String API_GETANUSER = BASE_URL_HEROKUAPP + "getAllUsers/{pageNumber}";
     public static final String END_POINT_STRING = "json?";
 
     /*Api name Constant*/

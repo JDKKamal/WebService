@@ -1,7 +1,10 @@
 package com.jdkgroup.rxjava2mvp.baseclasses;
 
+import com.jdkgroup.rxjava2mvp.interacter.AppInteractor;
+
 public abstract class BasePresenter<V extends BaseView> {
     private V view;
+    protected AppInteractor appInteractor;
 
     final void attachView(V view) {
         this.view = view;
@@ -35,4 +38,13 @@ public abstract class BasePresenter<V extends BaseView> {
             super("Please call Presenter.attachView(MvpView) before requesting data to the Presenter");
         }
     }
+
+    protected final AppInteractor getAppInteractor() {
+        if (appInteractor == null) {
+            appInteractor = new AppInteractor();
+        }
+        return appInteractor;
+    }
+
+
 }
